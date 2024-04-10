@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Portfolio with Cool Features</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        /* Global styles */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden; /* Hide horizontal scrollbar */
+        }
+        /* Navigation styles */
+        nav {
+            background-color: #111;
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 999;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 20px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        nav ul li a:before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background-color: #ffd700;
+            bottom: 0;
+            left: 0;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        nav ul li a:hover:before {
+            transform: scaleX(1);
+        }
+        nav ul li a:hover {
+            color: #ffd700;
+        }
+        /* Landing page styles */
+        .landing {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .landing-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200%;
+            z-index: -1;
+            background-image: url('landing-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            animation: parallax 10s linear infinite;
+        }
+        .landing-content {
+            max-width: 600px;
+            margin: auto;
+        }
+        .landing h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .landing p {
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+        /* About, Projects, and Contact section styles */
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 0;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+        }
+        .container {
+            max-width: 1200px;
+            width: 90%;
+            margin: auto;
+        }
+        .container h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .container p {
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+        /* Projects section styles */
+        #projects {
+            background-color: #222;
+        }
+        .swiper-container {
+            width: 100%;
+            height: 500px;
+            margin: auto;
+        }
+        .swiper-slide {
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+            width: 250px; /* Adjust the width as needed */
+           margin: 0 10px;
+        }
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .swiper-slide:hover {
+            transform: scale(1.05);
+        }
+        .swiper-slide .project-details {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 10px;
+            color: #fff;
+            text-align: left;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .swiper-slide:hover .project-details {
+            opacity: 1;
+        }
+        /* Footer styles */
+        footer {
+            background-color: #111;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        /* Keyframe animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes parallax {
+            from {
+                transform: translateY(0%);
+            }
+            to {
+                transform: translateY(-100%);
+            }
+        }
+        /* Page transition animation */
+        .page-transition {
+            animation: pageFadeIn 0.5s ease forwards;
+        }
+        @keyframes pageFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        /* Skillset section styles */
+        #skills {
+            background-color: #333;
+            padding: 50px 0;
+        }
+        .skills-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .skill {
+            flex: 1 1 calc(25% - 20px);
+            margin: 10px;
+            padding: 20px;
+            background-color: #444;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        .skill h3 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+        .skill-bar {
+            position: relative;
+            width: 100%;
+            height: 20px;
+            background-color: #666;
+            border-radius: 10px;
+        }
+        .skill-bar-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background-color: #ffd700;
+            border-radius: 10px;
+            animation: fillAnimation 2s ease-in-out forwards;
+        }
+        .skill-bar-fill[data-percent='90'] {
+            width: 90%;
+        }
+        .skill-bar-fill[data-percent='80'] {
+            width: 80%;
+        }
+        .skill-bar-fill[data-percent='70'] {
+            width: 70%;
+        }
+        .skill-bar-fill[data-percent='60'] {
+            width: 60%;
+        }
+        .skill-bar-fill[data-percent='50'] {
+            width: 50%;
+        }
+        @keyframes fillAnimation {
+            from {
+                width: 0;
+            }
+            to {
+                width: var(--percent);
+            }
+        }
+        /* Media queries */
+        @media (max-width: 768px) {
+            .swiper-container {
+                height: 300px;
+            }
+            .skill {
+                flex-basis: calc(50% - 20px);
+            }
+        }
+
+        /* Contact section styles */
+        #contact {
+            background-color: #111;
+            padding: 50px 0;
+        }
+        .message-box {
+            max-width: 600px;
+            margin: auto;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .message-box textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #444;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+        .message-box button {
+            padding: 10px 20px;
+            background-color: #ffd700;
+            color: #111;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .message-box button:hover {
+            background-color: #ffc800;
+        }
+        .contact-info .social-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.social-icon {
+    color: #fff; /* White color for icons */
+    font-size: 24px; /* Icon size */
+    margin: 0 10px; /* Space between icons */
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+.social-icon:hover {
+    color: #ffd700; /* Gold color on hover */
+}
+
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#about">About Me</a></li>
+            <li><a href="#projects">My Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact Me</a></li>
+        </ul>
+    </nav>
+
+    <div class="landing page-transition">
+        <div class="landing-background"></div>
+        <div class="landing-content">
+            <h1>Welcome to My Pro Portfolio</h1>
+            <p>Showcasing my best work with style!</p>
+        </div>
+    </div>
+
+    <section id="about" class="page-transition">
+        <div class="container">
+            <h2>About Me</h2>
+            <p>I'm a seasoned web developer with a passion for creating immersive online experiences. I have extensive experience in HTML, CSS, JavaScript, and Python.</p>
+            <p>My goal is to deliver high-quality websites that not only meet but exceed client expectations. I thrive in collaborative environments and am always eager to learn and explore new technologies.</p>
+        </div>
+    </section>
+
+    <section id="projects" class="page-transition">
+        <div class="container">
+            <h2>My Projects</h2>
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="downlod.png" alt="Project 1">
+                        <div class="project-details">
+                            <h3>Project 1</h3>
+                            <p>Description of project 1.</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="downlod.png" alt="Project 2">
+                        <div class="project-details">
+                            <h3>Project 2</h3>
+                            <p>Description of project 2.</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="downlod.png" alt="Project 3">
+                        <div class="project-details">
+                            <h3>Project 3</h3>
+                            <p>Description of project 3.</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="downlod.png" alt="Project 4">
+                        <div class="project-details">
+                            <h3>Project 4</h3>
+                            <p>Description of project 4.</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="downlod.png" alt="Project 5">
+                        <div class="project-details">
+                            <h3>Project 5</h3>
+                            <p>Description of project 5.</p>
+                        </div>
+                    </div>
+                    <!-- Add more projects as needed -->
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="page-transition">
+        <div class="container">
+            <h2>My Skills</h2>
+            <div class="skills-container">
+                <div class="skill">
+                    <h3>HTML</h3>
+                    <div class="skill-bar">
+                        <div class="skill-bar-fill" style="--percent: 90%;" data-percent="90"></div>
+                    </div>
+                </div>
+                <div class="skill">
+                    <h3>CSS</h3>
+                    <div class="skill-bar">
+                        <div class="skill-bar-fill" style="--percent: 80%;" data-percent="80"></div>
+                    </div>
+                </div>
+                <div class="skill">
+                    <h3>JavaScript</h3>
+                    <div class="skill-bar">
+                        <div class="skill-bar-fill" style="--percent: 70%;" data-percent="70"></div>
+                    </div>
+                </div>
+                <div class="skill">
+                    <h3>Python</h3>
+                    <div class="skill-bar">
+                        <div class="skill-bar-fill" style="--percent: 90%;" data-percent="90"></div>
+                    </div>
+                </div>
+                <!-- Add more skills as needed -->
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="page-transition">
+        <div class="container">
+            <h2>Contact Me</h2>
+            <div class="message-box">
+                <textarea placeholder="Enter your message..."></textarea>
+                <button>Send Message</button>
+            </div>
+            <div class="contact-info">
+                <p>Email: Vineethgm2004@gmail.com</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <!-- Add more social media icons as needed -->
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        // Initialize Swiper
+        var swiper = new Swiper('.swiper-container', {
+            effect: 'coverflow',
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: 'auto',
+            coverflowEffect: {
+                rotate: 50,
+                stretch: 0,
+                depth: 100,
+                modifier: 1,
+                slideShadows: true,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+            },
+        });
+        // Add smooth page transition animation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.classList.add('page-transition');
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: target.offsetTop,
+                        behavior: 'smooth'
+                    });
+                }, 500);
+            });
+        });
+        // Parallax effect on landing background
+        window.addEventListener('scroll', function() {
+            const parallax = document.querySelector('.landing-background');
+            let scrollPosition = window.pageYOffset;
+            parallax.style.transform = 'translateY(' + scrollPosition * 0.5 + 'px)';
+        });
+    </script>
+</body>
+</html>
